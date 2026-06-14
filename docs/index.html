@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="JobLens AI Career Platform static preview">
+  <title>JobLens AI Career Platform</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#home"><span>JL</span><strong>JobLens AI</strong></a>
+    <nav><a href="#overview">Overview</a><a href="#analysis">Analysis</a><a href="#roadmap">Roadmap</a><a href="#research">Research</a></nav>
+    <button id="themeButton" aria-label="Toggle color theme">Theme</button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div><p class="eyebrow">AI Career Intelligence</p><h1>Explainable CV matching for better career decisions.</h1><p>Analyze skills, identify gaps, compare job opportunities, and plan the next learning steps.</p><a class="button" href="#analysis">View interactive preview</a></div>
+      <div class="hero-panel"><b>Static GitHub Pages Preview</b><p>Full CV analysis, ML prediction, PDF report generation, and admin notification require backend deployment.</p><div class="score"><span>Demo match accuracy</span><strong>92%</strong></div></div>
+    </section>
+
+    <section id="overview"><div class="heading"><p class="eyebrow">Project Overview</p><h2>One workflow from CV to career roadmap</h2></div><div class="cards three"><article><h3>CV Intelligence</h3><p>Extracts professional signals, skills, experience, and role direction.</p></article><article><h3>Explainable Matching</h3><p>Shows matched skills, missing skills, readiness, and score breakdowns.</p></article><article><h3>Career Planning</h3><p>Prioritizes skills, learning time, courses, and suitable job families.</p></article></div></section>
+
+    <section id="analysis"><div class="heading"><p class="eyebrow">CV Upload Demo</p><h2>Preview the JobLens analysis flow</h2></div><div class="workspace"><article class="upload"><label>CV PDF<input type="file" disabled></label><label>Job dataset<input type="file" disabled></label><button id="demoButton">Run demo analysis</button><small>Demo only on GitHub Pages. No file is uploaded.</small></article><article><h3>Skill Extraction Preview</h3><div class="chips" id="skills"><span>Python</span><span>JavaScript</span><span>SQL</span><span>Flask</span><span>Git</span></div><h3>Skill Gap Analysis</h3><div class="metrics"><b>82% readiness</b><b>18% gap</b></div><div class="chips missing"><span>Docker</span><span>AWS</span><span>CI/CD</span></div></article></div></section>
+
+    <section id="roadmap"><div class="heading"><p class="eyebrow">Recommendations</p><h2>Roadmap, courses, and jobs</h2></div><div class="cards three"><article><h3>Career Roadmap</h3><ol><li>Docker - High priority</li><li>AWS - High priority</li><li>REST APIs - Medium priority</li></ol></article><article><h3>Course Recommendations</h3><p>Docker Foundations</p><p>AWS Cloud Practitioner</p><p>Backend API Design</p></article><article><h3>Job Recommendations</h3><p>Junior Backend Developer - 88%</p><p>Python Developer - 84%</p><p>Software Engineer - 79%</p></article></div></section>
+
+    <section><div class="heading"><p class="eyebrow">Explainable AI</p><h2>Understand every recommendation</h2></div><div class="cards two"><article><h3>Why this job?</h3><p>Your Python, SQL, Flask, and Git skills align strongly with backend roles. Docker and AWS would improve production readiness.</p></article><article><h3>Report Download Demo</h3><p>The full Flask application generates PDF and JSON reports with accuracy, skill gaps, and roadmap details.</p><button id="reportButton">Preview report action</button></article></div></section>
+
+    <section><div class="cards two"><article><h3>Admin Notification Demo</h3><p>A deployed backend can notify administrators about completed analyses and system activity.</p></article><article><h3>Dataset & Model Overview</h3><p>JobLens normalizes job titles, required skills, experience, work type, and company overview data for explainable scoring.</p></article></div></section>
+
+    <section id="research"><div class="heading"><p class="eyebrow">Research Motivation</p><h2>Supporting fresh graduates in Bangladesh</h2></div><div class="research"><p>JobLens studies how NLP and machine-learning-driven CV mapping can improve transparent job placement and skill development.</p><a class="button secondary" href="https://www.researchgate.net/publication/399869629_JobLens_NLP_and_Machine_Learning-Driven_CV_Mapping_and_Job_Placement_Model_for_Fresh_Graduates_in_Bangladesh" target="_blank" rel="noreferrer">Read the ResearchGate paper</a></div></section>
+  </main>
+
+  <footer><strong>Developed By <a href="https://tanvirnibir.com/" target="_blank" rel="noreferrer">TANVIR NIBIR</a></strong><span>JobLens AI Career Platform</span></footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
+

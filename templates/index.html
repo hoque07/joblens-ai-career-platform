@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JobLens AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home">
+      <span class="logo">JL</span>
+      <span>
+        <strong>JobLens AI</strong>
+        <small>AI-Powered CV Job Match Analyzer</small>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a class="active" href="#home">Home</a>
+      <a href="#how">How It Works</a>
+      <a href="#demo">Demo</a>
+      <a href="#results">Results</a>
+      <a href="#dataset">Dataset</a>
+      <a href="#research">Research</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <label class="upload-nav">
+        Upload CV
+        <input id="navCvFile" type="file" accept="application/pdf" />
+      </label>
+      <a class="github-btn" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+  </header>
+
+  <main class="page-shell" id="home">
+    <section class="hero-grid">
+      <div class="hero-copy reveal">
+        <h1>AI-Powered<br />CV Job Match <span>Analyzer</span></h1>
+        <p>
+          Upload your CV and let JobLens AI analyze your skills, match you with the best jobs,
+          detect skill gaps, and generate a personalized career roadmap.
+        </p>
+        <div class="hero-actions">
+          <button class="primary large" id="heroAnalyzeBtn" type="button">Analyze Your CV</button>
+          <a class="outline large" href="#demo">View Demo</a>
+        </div>
+        <div class="feature-pills">
+          <span>Skill Extraction</span>
+          <span>Job Matching</span>
+          <span>Gap Detection</span>
+          <span>Career Roadmap</span>
+        </div>
+        <div class="hero-stats">
+          <article><b>12,450+</b><span>Jobs Analyzed</span></article>
+          <article><b>8,760+</b><span>Companies</span></article>
+          <article><b>5,120+</b><span>Users</span></article>
+          <article><b>95.3%</b><span>Match Accuracy</span></article>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="cv-hologram" aria-hidden="true">
+          <div class="cv-card">
+            <span>CV</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="lens"></div>
+          <div class="orbit one"></div>
+          <div class="orbit two"></div>
+          <div class="orbit three"></div>
+        </div>
+      </div>
+
+      <section class="analysis-panel reveal" id="demo">
+        <div class="panel-grid">
+          <article class="glass upload-card">
+            <h2>Upload & Analyze</h2>
+            <label class="file-row">
+              <span>Upload CV (PDF)</span>
+              <strong id="cvName">Choose CV PDF</strong>
+              <input id="cvFile" type="file" accept="application/pdf" />
+            </label>
+            <label class="file-row">
+              <span>Upload Job Dataset (JSON)</span>
+              <strong id="datasetName">Choose Dataset JSON</strong>
+              <input id="datasetFile" type="file" accept="application/json" />
+            </label>
+            <button class="primary full" id="analyzeBtn" type="button">
+              <span id="btnIcon">Analyze</span>
+              <span id="btnText">CV</span>
+            </button>
+            <p class="error" id="errorBox"></p>
+            <div class="preview-card">
+              <span>CV Preview</span>
+              <div class="preview-paper">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div class="company-mini">
+              <strong>Company Summary</strong>
+              <p id="miniSummary">Company culture insights appear after analysis.</p>
+            </div>
+          </article>
+
+          <article class="glass extracted-card">
+            <div class="card-head">
+              <h2>Extracted Skills <span id="skillCount">(0)</span></h2>
+            </div>
+            <div class="chips" id="skillsBox">
+              <span class="empty">Upload your CV and dataset to extract skills.</span>
+            </div>
+          </article>
+
+          <article class="glass matches-card">
+            <div class="card-head">
+              <h2>Top Job Matches</h2>
+              <button class="text-btn" type="button" id="viewAllBtn">View All</button>
+            </div>
+            <div class="rank-list" id="matchesBox">
+              <span class="empty">Recommended jobs will appear here.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section class="glass process-section reveal" id="how">
+      <h2>How It Works</h2>
+      <div class="process-steps">
+        <article><b>1</b><strong>Upload CV</strong><span>Submit your CV PDF.</span></article>
+        <article><b>2</b><strong>Extract Text</strong><span>Read professional CV content.</span></article>
+        <article><b>3</b><strong>Extract Skills</strong><span>Detect and normalize skills.</span></article>
+        <article><b>4</b><strong>Match Jobs</strong><span>Score relevant roles.</span></article>
+        <article><b>5</b><strong>Gap Detection</strong><span>Find missing skills.</span></article>
+        <article><b>6</b><strong>Career Roadmap</strong><span>Suggest next learning steps.</span></article>
+      </div>
+      <h3>5 Core Modules</h3>
+      <div class="module-grid">
+        <article><b>1</b><strong>CV Intelligence</strong><span>Extract skills, experience, education and profile signals.</span></article>
+        <article><b>2</b><strong>Dataset Intelligence</strong><span>Normalize job data for accurate matching.</span></article>
+        <article><b>3</b><strong>Matching Engine</strong><span>Advanced explainable scoring.</span></article>
+        <article><b>4</b><strong>Skill Gap & Roadmap</strong><span>Detect gaps and generate personalized learning.</span></article>
+        <article><b>5</b><strong>Explainable Dashboard</strong><span>Transparent results with score breakdowns.</span></article>
+      </div>
+    </section>
+
+    <section class="result-dashboard reveal" id="results">
+      <div class="section-title">
+        <h2>Analysis Result Dashboard</h2>
+        <span id="topStatus">Ready</span>
+      </div>
+
+      <div class="metric-strip">
+        <article><span>Match Score</span><b id="metricMatch">0%</b></article>
+        <article><span>Matched Skills</span><b id="metricMatched">0</b></article>
+        <article><span>Missing Skills</span><b id="metricMissing">0</b></article>
+        <article><span>Gap Score</span><b id="metricGap">0%</b></article>
+        <article><span>Recommended Jobs</span><b id="metricJobs">0</b></article>
+        <article><span>Company Score</span><b id="metricCompany">0%</b></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="glass matched-missing">
+          <h3>Matched vs Missing Skills</h3>
+          <strong>Matched Skills</strong>
+          <div class="chips compact" id="matchedSkillsBox"><span class="empty">No match selected.</span></div>
+          <strong>Missing Skills</strong>
+          <div class="chips compact" id="missingSkillsBox"><span class="empty">No match selected.</span></div>
+        </article>
+
+        <article class="glass job-table-card">
+          <h3>Top Recommended Jobs</h3>
+          <div class="job-table" id="jobTableBox">
+            <span class="empty">Run analysis to view recommended jobs.</span>
+          </div>
+        </article>
+
+        <article class="glass roadmap-card">
+          <h3>Career Roadmap (Next Steps)</h3>
+          <div class="roadmap-list" id="roadmapBox">
+            <span class="empty">Roadmap appears after analysis.</span>
+          </div>
+        </article>
+
+        <article class="glass why-card">
+          <h3>Why this job is recommended?</h3>
+          <p id="whyBox">Select a top match to see a simple explanation.</p>
+        </article>
+
+        <article class="glass detail-card" id="detailBox">
+          <h3>Selected Job Detail</h3>
+          <p class="subtle">Click a recommended job to inspect score breakdown, overview, and role-specific roadmap.</p>
+        </article>
+
+        <article class="glass profile-card">
+          <h3>Candidate Profile Summary</h3>
+          <div class="profile-grid">
+            <span>Name <b id="profileName">Not detected</b></span>
+            <span>Experience <b id="profileExperience">Not detected</b></span>
+            <span>Salary <b id="profileSalary">Not detected</b></span>
+            <span>Location <b id="profileLocation">Not detected</b></span>
+            <span>Role Direction <b id="profileRole">Not detected</b></span>
+            <span>Total Skills <b id="profileSkills">0</b></span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-grid reveal" id="dataset">
+      <article class="glass">
+        <h2>Skill Gap Overview</h2>
+        <div class="info-stats">
+          <span>Total Candidate Skills <b id="gapTotal">0</b></span>
+          <span>Average Readiness <b id="gapReadiness">0%</b></span>
+          <span>Most Common Missing Skill <b id="gapCommon">None</b></span>
+          <span>Best-Fit Job Family <b id="gapFamily">Not detected</b></span>
+        </div>
+        <div class="chips compact" id="priorityMissing"></div>
+      </article>
+      <article class="glass">
+        <h2>Dataset Intelligence</h2>
+        <div class="dataset-intel" id="intelBox">
+          <span class="empty">Dataset intelligence appears after analysis.</span>
+        </div>
+      </article>
+      <article class="glass" id="research">
+        <h2>Company Review Summary</h2>
+        <p class="summary" id="summaryBox">A readable company overview summary appears after analysis.</p>
+      </article>
+      <article class="glass">
+        <h2>Report Export</h2>
+        <p class="summary export-note">
+          Download a clean offline PDF report with match accuracy, skill gap, company summary,
+          and roadmap. JSON is still available for technical review.
+        </p>
+        <div class="export-actions">
+          <button class="primary" id="downloadPdfBtn" type="button">Download PDF Report</button>
+          <button class="outline" id="copyBtn" type="button">Copy Result JSON</button>
+          <button class="outline" id="downloadBtn" type="button">Download JSON</button>
+        </div>
+        <details class="payload-details">
+          <summary>View technical JSON payload</summary>
+          <pre class="payload" id="payloadBox">No report generated yet.</pre>
+        </details>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div>
+      <a class="brand footer-brand" href="#home">
+        <span class="logo">JL</span>
+        <span><strong>JobLens AI</strong><small>Skill gap and job match research prototype.</small></span>
+      </a>
+      <p class="footer-credit">
+        <strong>Site developed by:</strong>
+          <a href="https://tanvirnibir.com/" target="_blank" rel="noreferrer">TANVIR NIBIR</a>
+          <span>Innovation & Planning</span>
+    </p>
+      <p class="footer-credit">
+        <strong>Researcher:</strong> BAYAZID HOSEN
+      </p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <a href="#home">Home</a>
+      <a href="#how">How It Works</a>
+      <a href="#results">Results</a>
+      <a href="#dataset">Dataset</a>
+    </div>
+    <div>
+      <h3>Research</h3>
+      <a href="#research">Methodology</a>
+      <a href="#results">Evaluation Metrics</a>
+      <a href="#dataset">Dataset Information</a>
+      <a
+        href="https://www.researchgate.net/publication/399869629_JobLens_NLP_and_Machine_Learning-Driven_CV_Mapping_and_Job_Placement_Model_for_Fresh_Graduates_in_Bangladesh"
+        target="_blank"
+        rel="noreferrer"
+      >
+        ResearchGate Paper
+      </a>
+    </div>
+    <div>
+      <h3>Stay Updated</h3>
+      <div class="subscribe">
+        <input type="email" placeholder="Your email" />
+        <button class="primary" type="button">Subscribe</button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

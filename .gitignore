@@ -1,0 +1,28 @@
+.env
+.env.local
+__pycache__/
+*.pyc
+venv/
+.venv/
+node_modules/
+.DS_Store
+instance/
+uploads/
+models/
+datasets/
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+.cache/
+dist/
+build/
+
+# Private/local analysis inputs
+*.pdf
+full_dataset.json
+
+# Local legacy/helper files not used by the current Flask app
+/index.html
+/JobLens_Codex_File_Info.VS_CODE.txt
