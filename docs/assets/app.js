@@ -1,1 +1,25 @@
-const themeButton=document.getElementById('themeButton');themeButton.addEventListener('click',()=>document.body.classList.toggle('light'));document.getElementById('demoButton').addEventListener('click',()=>{document.getElementById('skills').animate([{opacity:.3,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:450});alert('Static demo complete. Deploy the Flask backend for real CV analysis.');});document.getElementById('reportButton').addEventListener('click',()=>alert('PDF report generation requires the Flask backend.'));
+const $ = (id) => document.getElementById(id);
+const cvFile = $("cvFile");
+const navCvFile = $("navCvFile");
+const datasetFile = $("datasetFile");
+const message = "This GitHub Pages site is a static preview. Clone the repository and run Flask for real CV analysis and PDF reports.";
+
+function showFile(input, target) {
+  const file = input.files && input.files[0];
+  if (file) $(target).textContent = file.name;
+}
+
+function showDemo() {
+  $("errorBox").textContent = message;
+  $("topStatus").textContent = "Static preview";
+  document.querySelector("#results").scrollIntoView({ behavior: "smooth" });
+}
+
+cvFile.addEventListener("change", () => showFile(cvFile, "cvName"));
+navCvFile.addEventListener("change", () => showFile(navCvFile, "cvName"));
+datasetFile.addEventListener("change", () => showFile(datasetFile, "datasetName"));
+$("analyzeBtn").addEventListener("click", showDemo);
+$("heroAnalyzeBtn").addEventListener("click", () => document.querySelector("#demo").scrollIntoView({ behavior: "smooth" }));
+$("downloadPdfBtn").addEventListener("click", showDemo);
+$("downloadBtn").addEventListener("click", showDemo);
+$("copyBtn").addEventListener("click", showDemo);
