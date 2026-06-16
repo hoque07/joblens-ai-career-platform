@@ -44,11 +44,62 @@ async function extractPdfText(file) {
   return pages.join(" ").replace(/\s+/g, " ").trim();
 }
 
-function validateDataset(dataset) {
-  const fields = ["Company Name", "Position", "Skills Required", "Experience", "Work Type", "Company Overview"];
-  if (!Array.isArray(dataset) || !dataset.length) throw new Error("Dataset must be a non-empty JSON array.");
-  const missing = fields.filter((field) => !(field in dataset[0]));
-  if (missing.length) throw new Error(`Dataset is missing: ${missing.join(", ")}`);
+const FIELD_ALIASES = {
+  "Company Name": ["company name", "company", "companyname", "organization", "employer"],
+  Position: ["position", "job title", "job_title", "title", "role", "designation"],
+  "Skills Required": ["skills required", "skills", "required skills", "required_skills", "skill required", "requirements"],
+  Experience: ["experience", "experience required", "required experience", "exp", "years experience"],
+  "Work Type": ["work type", "work_type", "job type", "employment type", "type", "work mode"],
+  "Company Overview": ["company overview", "overview", "company description", "description", "about company", "company profile"]
+};
+
+function keyToken(value) {
+  return String(value || "").toLowerCase().replace(/^\uFEFF/, "").replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function pickArrayFromJson(value) {
+  if (Array.isArray(value)) return value;
+  if (!value || typeof value !== "object") return [];
+  const directKeys = ["data", "jobs", "records", "dataset", "items", "results"];
+  for (const key of directKeys) {
+    if (Array.isArray(value[key])) return value[key];
+  }
+  return Object.values(value).find((entry) => Array.isArray(entry) && entry.some((item) => item && typeof item === "object")) || [];
+}
+
+async function parseDatasetFile(file) {
+  const raw = (await file.text()).replace(/^\uFEFF/, "").trim();
+  if (!raw) throw new Error("The selected JSON file is empty.");
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    const cleaned = raw.replace(/:\s*(?:NaN|Infinity|-Infinity)(?=\s*[,}\]])/g, ": null");
+    try {
+      return JSON.parse(cleaned);
+    } catch {
+      throw new Error(`Invalid JSON file: ${error.message}`);
+    }
+  }
+}
+
+function normalizeDataset(input) {
+  const rows = pickArrayFromJson(input).filter((row) => row && typeof row === "object");
+  if (!rows.length) throw new Error("No job records found in the JSON dataset.");
+
+  const normalized = rows.map((row) => {
+    const lookup = new Map(Object.entries(row).map(([key, value]) => [keyToken(key), value]));
+    const clean = {};
+    for (const [standard, aliases] of Object.entries(FIELD_ALIASES)) {
+      const value = aliases.map(keyToken).map((alias) => lookup.get(alias)).find((entry) => entry !== undefined && entry !== null && String(entry).trim() !== "");
+      clean[standard] = Array.isArray(value) ? value.join(", ") : (value ?? "");
+    }
+    return clean;
+  });
+
+  const required = ["Company Name", "Position", "Skills Required"];
+  const missing = required.filter((field) => !normalized.some((row) => String(row[field] || "").trim()));
+  if (missing.length) throw new Error(`Dataset is missing required information: ${missing.join(", ")}`);
+  return normalized.filter((row) => row.Position || row["Company Name"] || row["Skills Required"]);
 }
 
 function detectSkills(text, dataset) {
@@ -172,7 +223,7 @@ async function analyze() {
   setError(); const cv = $("cvFile").files[0]; const datasetFile = $("datasetFile").files[0];
   if (!cv) return setError("Please select a CV PDF."); if (!datasetFile) return setError("Please select the JSON dataset.");
   $("analyzeBtn").disabled = true; setStatus("Analyzing in browser");
-  try { const [text, dataset] = await Promise.all([extractPdfText(cv), datasetFile.text().then(JSON.parse)]); if (!text) throw new Error("The PDF has no readable text."); validateDataset(dataset); state.selectedIndex = 0; renderReport(analyzeData(text, dataset, cv.name)); document.querySelector("#results").scrollIntoView({ behavior: "smooth" }); }
+  try { const [text, rawDataset] = await Promise.all([extractPdfText(cv), parseDatasetFile(datasetFile)]); if (!text) throw new Error("The PDF has no readable text."); const dataset = normalizeDataset(rawDataset); state.selectedIndex = 0; renderReport(analyzeData(text, dataset, cv.name)); document.querySelector("#results").scrollIntoView({ behavior: "smooth" }); }
   catch (error) { setError(error.message || "Analysis failed."); }
   finally { $("analyzeBtn").disabled = false; }
 }
