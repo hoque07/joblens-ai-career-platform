@@ -1,0 +1,301 @@
+Absolutely. Think of this project as two versions living in one folder:
+
+`D:\joblens_system`
+
+The important website files are inside:
+
+`D:\joblens_system\docs`
+
+GitHub Pages shows whatever is inside `docs`.
+
+**1. Open Project In VS Code**
+1. Open **VS Code**.
+2. Click **File**.
+3. Click **Open Folder**.
+4. Select:
+
+```text
+D:\joblens_system
+```
+
+5. Click **Select Folder**.
+
+Now you can see all project files on the left side.
+
+**2. Important Files**
+Open these first:
+
+```text
+D:\joblens_system\docs\index.html
+```
+
+This is the main website page.
+
+```text
+D:\joblens_system\docs\assets\app-v2.js
+```
+
+This is the brain of the website. It handles CV upload, JSON upload, analysis and report.
+
+```text
+D:\joblens_system\docs\assets\style.css
+```
+
+This controls design, color, spacing and layout.
+
+```text
+D:\joblens_system\full_dataset.json
+```
+
+This is your private full job dataset. It is used for testing from your PC.
+
+**3. How The Website Works**
+Simple flow:
+
+```text
+User uploads CV PDF
+        ↓
+JavaScript reads PDF using PDF.js
+        ↓
+User uploads full_dataset.json
+        ↓
+JavaScript reads the JSON
+        ↓
+System compares CV skills with job skills
+        ↓
+Website shows recommended jobs, match score, gap skills and summary
+```
+
+Because GitHub Pages is static, it cannot run Python/Flask. So the live site works using JavaScript inside the browser.
+
+**4. Run Locally From VS Code**
+In VS Code:
+
+1. Click **Terminal**.
+2. Click **New Terminal**.
+3. Run:
+
+```powershell
+cd D:\joblens_system
+```
+
+Then run this:
+
+```powershell
+python -m http.server 8000 -d docs
+```
+
+Now open Chrome and go to:
+
+```text
+http://localhost:8000
+```
+
+This opens your GitHub Pages version locally.
+
+**5. Test The Site**
+On the website:
+
+1. Upload a CV PDF.
+2. Upload:
+
+```text
+D:\joblens_system\full_dataset.json
+```
+
+3. Click **Analyze CV**.
+4. Check if results appear.
+5. If something fails, press `F12` in Chrome.
+6. Click **Console**.
+7. Read the red error message.
+
+**6. Edit The Design**
+If you want to change color, size, spacing, cards or layout, edit:
+
+```text
+D:\joblens_system\docs\assets\style.css
+```
+
+Example:
+
+```css
+.summary-box {
+  font-size: 16px;
+}
+```
+
+After editing, save the file with `Ctrl + S`, then refresh browser.
+
+**7. Edit The Logic**
+If you want to change analysis, skill matching, JSON reading or report generation, edit:
+
+```text
+D:\joblens_system\docs\assets\app-v2.js
+```
+
+Important functions:
+
+```js
+parseDatasetFile()
+```
+
+Reads the JSON file.
+
+```js
+normalizeDataset()
+```
+
+Fixes dataset field names.
+
+```js
+extractPdfText()
+```
+
+Reads text from PDF.
+
+```js
+detectSkills()
+```
+
+Finds skills from CV.
+
+```js
+analyzeData()
+```
+
+Creates match score and recommendations.
+
+```js
+renderReport()
+```
+
+Shows results on the website.
+
+**8. Update Cache Version**
+Whenever you edit `app-v2.js`, open:
+
+```text
+D:\joblens_system\docs\index.html
+```
+
+Find this line:
+
+```html
+<script src="assets/app-v2.js?v=average-readiness-fix-20260618"></script>
+```
+
+Change the version name, for example:
+
+```html
+<script src="assets/app-v2.js?v=my-new-update-1"></script>
+```
+
+This forces browser to load your latest JavaScript.
+
+**9. Save Work To GitHub**
+After editing and testing, open VS Code terminal:
+
+```powershell
+cd D:\joblens_system
+```
+
+Check changed files:
+
+```powershell
+git status
+```
+
+Add changed files:
+
+```powershell
+git add docs/index.html docs/assets/app-v2.js docs/assets/style.css
+```
+
+Commit:
+
+```powershell
+git commit -m "Update JobLens version 2"
+```
+
+Push to GitHub:
+
+```powershell
+git push origin version-2
+```
+
+**10. Open Live Website**
+After 1–2 minutes, open:
+
+```text
+https://hoque07.github.io/joblens-ai-career-platform/
+```
+
+If old version appears, press:
+
+```text
+Ctrl + Shift + R
+```
+
+**11. Branch Meaning**
+You have two branches:
+
+```text
+version-1
+```
+
+Backup old version. Do not edit.
+
+```text
+version-2
+```
+
+Current working version. Edit this one.
+
+Before editing, always check branch:
+
+```powershell
+git branch
+```
+
+If you are not on `version-2`, run:
+
+```powershell
+git checkout version-2
+```
+
+**12. Very Important Rule**
+Do not upload private files to GitHub:
+
+```text
+full_dataset.json
+real CV PDF files
+private student/user data
+```
+
+These are ignored by `.gitignore`, which is good.
+
+**Your Daily Workflow**
+Use this every time:
+
+```powershell
+cd D:\joblens_system
+git checkout version-2
+python -m http.server 8000 -d docs
+```
+
+Open:
+
+```text
+http://localhost:8000
+```
+
+Edit files in VS Code, test, then push:
+
+```powershell
+git status
+git add docs/index.html docs/assets/app-v2.js docs/assets/style.css
+git commit -m "Your update message"
+git push origin version-2
+```
+
+That is the full control system: VS Code for editing, local browser for testing, GitHub for backup and live website.
