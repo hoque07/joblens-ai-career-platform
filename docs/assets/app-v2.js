@@ -181,7 +181,7 @@ function analyzeData(text, dataset, fileName) {
   return {
     candidate_profile: detectProfile(text, fileName, top.title, skills.length),
     skills,
-    skill_gap_overview: { total_candidate_skills: skills.length, average_readiness, most_common_missing_skill: rankedMissing[0]?.[0] || "None", high_priority_missing_skills: rankedMissing.slice(0, 5).map(([skill]) => skill), best_fit_job_family: top.title || "Not detected" },
+    skill_gap_overview: { total_candidate_skills: skills.length, average_readiness: averageReadiness, most_common_missing_skill: rankedMissing[0]?.[0] || "None", high_priority_missing_skills: rankedMissing.slice(0, 5).map(([skill]) => skill), best_fit_job_family: top.title || "Not detected" },
     matches, career_roadmap: roadmap,
     dataset_intelligence: { total_jobs: dataset.length, unique_companies: companies.size, unique_positions: positions.size, unique_skills: allSkills.size, top_skills: [], work_type_distribution: {} },
     summary: top.company ? `Top company insight: ${top.company}. ${top.company_overview}` : "No company overview available."
