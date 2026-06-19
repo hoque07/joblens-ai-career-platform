@@ -1,7 +1,9 @@
-const state = {
+﻿const state = {
   report: null,
   selectedIndex: 0,
+  sessionId: localStorage.getItem("joblens_v4_session") || crypto.randomUUID(),
 };
+localStorage.setItem("joblens_v4_session", state.sessionId);
 
 const $ = (id) => document.getElementById(id);
 
@@ -9,6 +11,7 @@ const fields = {
   cvFile: $("cvFile"),
   navCvFile: $("navCvFile"),
   datasetFile: $("datasetFile"),
+  targetRole: $("targetRole"),
   cvName: $("cvName"),
   datasetName: $("datasetName"),
   analyzeBtn: $("analyzeBtn"),
@@ -35,6 +38,10 @@ const fields = {
   downloadPdfBtn: $("downloadPdfBtn"),
 };
 
+function trackEvent(eventType, metadata = {}) {
+  const payload = JSON.stringify({ session_id: state.sessionId, event_type: eventType, metadata });
+  return fetch("/api/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(() => {});
+}
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -306,20 +313,23 @@ async function analyze() {
   const dataset = fields.datasetFile.files[0];
 
   if (!cv) return setError("Please upload a CV PDF first.");
-  if (!dataset) return setError("Please upload a job dataset JSON first.");
 
   const formData = new FormData();
+  formData.append("session_id", state.sessionId);
+  formData.append("target_role", fields.targetRole?.value || "");
   formData.append("cvFile", cv);
-  formData.append("datasetFile", dataset);
+  if (dataset) formData.append("datasetFile", dataset);
   setLoading(true);
+  trackEvent("analysis_started", { target_role: fields.targetRole?.value || "", has_custom_dataset: Boolean(dataset) });
 
   try {
-    const response = await fetch("/process", { method: "POST", body: formData });
+    const response = await fetch("/api/analyze", { method: "POST", body: formData, headers: { "X-JobLens-Session": state.sessionId } });
     const payload = await response.json();
     if (!response.ok || payload.error) {
       throw new Error(payload.error || `Server error ${response.status}`);
     }
     renderReport(payload);
+    trackEvent("analysis_completed", { top_role: payload.matches?.[0]?.title, score: payload.matches?.[0]?.final_score });
     document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
     setError(error.message || "Something went wrong while analyzing the files.");
@@ -345,7 +355,7 @@ async function downloadPdfReport() {
   try {
     const response = await fetch("/download_report_pdf", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-JobLens-Session": state.sessionId },
       body: JSON.stringify(state.report),
     });
 
@@ -382,13 +392,18 @@ async function copyReport() {
   setStatus("Copied JSON");
 }
 
-fields.cvFile.addEventListener("change", () => syncCvFile(fields.cvFile));
+fields.cvFile.addEventListener("change", () => { syncCvFile(fields.cvFile); trackEvent("cv_uploaded", { filename: fields.cvFile.files[0]?.name }); });
 fields.navCvFile.addEventListener("change", () => syncCvFile(fields.navCvFile));
 fields.datasetFile.addEventListener("change", () => {
-  fields.datasetName.textContent = fields.datasetFile.files[0]?.name || "Choose Dataset JSON";
+  fields.datasetName.textContent = fields.datasetFile.files[0]?.name || "Built-in dataset will be used";
+  if (fields.datasetFile.files[0]) trackEvent("dataset_uploaded", { filename: fields.datasetFile.files[0].name });
 });
 fields.analyzeBtn.addEventListener("click", analyze);
 fields.heroAnalyzeBtn.addEventListener("click", () => document.querySelector("#demo").scrollIntoView({ behavior: "smooth" }));
 fields.downloadBtn.addEventListener("click", downloadReport);
 fields.downloadPdfBtn.addEventListener("click", downloadPdfReport);
 fields.copyBtn.addEventListener("click", copyReport);
+
+trackEvent("session_start", { browser: navigator.userAgent, device: navigator.platform });
+window.addEventListener("beforeunload", () => navigator.sendBeacon("/api/event", JSON.stringify({ session_id: state.sessionId, event_type: "session_end", metadata: {} })));
+

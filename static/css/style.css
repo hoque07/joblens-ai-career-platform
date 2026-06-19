@@ -1343,3 +1343,19 @@ button.table-row:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.file-row input[type="text"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px 12px;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  border-radius: 8px;
+  background: rgba(3, 12, 25, 0.72);
+  color: var(--text);
+  outline: none;
+}
+
+.file-row input[type="text"]:focus {
+  border-color: rgba(56, 189, 248, 0.78);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}

@@ -26,3 +26,4 @@ full_dataset.json
 # Local legacy/helper files not used by the current Flask app
 /index.html
 /JobLens_Codex_File_Info.VS_CODE.txt
+joblens_v4.db

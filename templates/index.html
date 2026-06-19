@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -77,13 +77,17 @@
           <article class="glass upload-card">
             <h2>Upload & Analyze</h2>
             <label class="file-row">
+              <span>Select Target Role</span>
+              <input id="targetRole" type="text" placeholder="Frontend Developer, Data Analyst, Android Developer" />
+            </label>
+            <label class="file-row">
               <span>Upload CV (PDF)</span>
               <strong id="cvName">Choose CV PDF</strong>
               <input id="cvFile" type="file" accept="application/pdf" />
             </label>
             <label class="file-row">
-              <span>Upload Job Dataset (JSON)</span>
-              <strong id="datasetName">Choose Dataset JSON</strong>
+              <span>Optional Custom Dataset (JSON)</span>
+              <strong id="datasetName">Built-in dataset will be used</strong>
               <input id="datasetFile" type="file" accept="application/json" />
             </label>
             <button class="primary full" id="analyzeBtn" type="button">
@@ -294,3 +298,6 @@
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
+
+
+
