@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JobLens AI</title>
+  <title>JobLens AI V3 Preview</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
@@ -21,6 +21,7 @@
       <a href="#demo">Demo</a>
       <a href="#results">Results</a>
       <a href="#dataset">Dataset</a>
+      <a href="#platform">Platform</a>
       <a href="#research">Research</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -35,16 +36,16 @@
 
   <main class="page-shell" id="home">
     <aside class="pages-notice">
-      <strong>JobLens Version 2</strong>
-      <span>CV and dataset analysis now runs privately in your browser. Your files are not uploaded to a server.</span>
-      <a href="https://github.com/hoque07/joblens-ai-career-platform/tree/version-1">Version 1 backup</a>
+      <strong>JobLens Version 3 Preview</strong>
+      <span>Startup-style user workspace, local behavior analytics, saved reports, and admin intelligence. Preview only; not pushed live.</span>
+      <a href="../docs/index.html">Version 2 backup</a>
     </aside>
     <section class="hero-grid">
       <div class="hero-copy reveal">
-        <h1>AI-Powered<br />CV Job Match <span>Analyzer</span></h1>
+        <h1>AI Career<br />Intelligence <span>Platform</span></h1>
         <p>
-          Upload your CV and let JobLens AI analyze your skills, match you with the best jobs,
-          detect skill gaps, and generate a personalized career roadmap.
+          Analyze CVs, understand user readiness, track career behavior, and turn job matching
+          into a full product dashboard for students, universities, and recruiters.
         </p>
         <div class="hero-actions">
           <button class="primary large" id="heroAnalyzeBtn" type="button">Analyze Your CV</button>
@@ -55,6 +56,7 @@
           <span>Job Matching</span>
           <span>Gap Detection</span>
           <span>Career Roadmap</span>
+          <span>User Analytics</span>
         </div>
         <div class="hero-stats">
           <article><b>12,450+</b><span>Jobs Analyzed</span></article>
@@ -86,11 +88,19 @@
               <strong id="cvName">Choose CV PDF</strong>
               <input id="cvFile" type="file" accept="application/pdf" />
             </label>
-            <label class="file-row">
-              <span>Upload Job Dataset (JSON)</span>
-              <strong id="datasetName">Choose Dataset JSON</strong>
-              <input id="datasetFile" type="file" accept="application/json" />
-            </label>
+            <div class="file-row dataset-auto">
+              <span>Job Dataset</span>
+              <strong id="datasetName">Loading built-in dataset...</strong>
+              <small>Users only need to upload a CV. Dataset is loaded automatically.</small>
+            </div>
+            <details class="dataset-fallback">
+              <summary>Use another dataset for testing</summary>
+              <label class="file-row">
+                <span>Upload Job Dataset (JSON)</span>
+                <strong id="datasetUploadName">Choose Dataset JSON</strong>
+                <input id="datasetFile" type="file" accept="application/json" />
+              </label>
+            </details>
             <button class="primary full" id="analyzeBtn" type="button">
               <span id="btnIcon">Analyze</span>
               <span id="btnText">CV</span>
@@ -250,6 +260,70 @@
         </details>
       </article>
     </section>
+
+    <section class="v3-platform reveal" id="platform">
+      <div class="section-title">
+        <div>
+          <h2>Version 3 Product Control Center</h2>
+          <p>Local preview of the user database, behavior analytics, admin intelligence, and startup roadmap.</p>
+        </div>
+        <button class="outline" id="resetV3Btn" type="button">Reset Local V3 Data</button>
+      </div>
+
+      <div class="v3-grid">
+        <article class="glass v3-profile">
+          <h3>User Workspace</h3>
+          <div class="v3-form">
+            <label>Name <input id="v3UserName" type="text" placeholder="Candidate name" /></label>
+            <label>Email <input id="v3UserEmail" type="email" placeholder="candidate@email.com" /></label>
+            <label>City <input id="v3UserCity" type="text" placeholder="Dhaka" /></label>
+            <label>Target Role <input id="v3TargetRole" type="text" placeholder="Frontend Developer" /></label>
+          </div>
+          <button class="primary" id="saveV3UserBtn" type="button">Save User Profile</button>
+          <p class="summary" id="v3UserSummary">No user profile saved yet.</p>
+        </article>
+
+        <article class="glass v3-command">
+          <h3>Startup Metrics</h3>
+          <div class="v3-kpi-grid">
+            <span>Total Analyses <b id="v3TotalAnalyses">0</b></span>
+            <span>Saved Users <b id="v3SavedUsers">0</b></span>
+            <span>Avg Career Score <b id="v3AvgScore">0%</b></span>
+            <span>Best Fit Role <b id="v3BestRole">Not detected</b></span>
+          </div>
+        </article>
+
+        <article class="glass v3-command">
+          <h3>Behavior Intelligence</h3>
+          <div class="behavior-timeline" id="v3BehaviorLog">
+            <span class="empty">User behavior appears after interactions.</span>
+          </div>
+        </article>
+
+        <article class="glass v3-command">
+          <h3>Saved Analysis History</h3>
+          <div class="history-list" id="v3HistoryList">
+            <span class="empty">Run an analysis to save the first report.</span>
+          </div>
+        </article>
+
+        <article class="glass v3-command wide">
+          <h3>Admin Intelligence</h3>
+          <div class="admin-insights" id="v3AdminInsights">
+            <span class="empty">Admin insights appear after analysis.</span>
+          </div>
+        </article>
+
+        <article class="glass v3-command wide">
+          <h3>Product Roadmap For Real Database Version</h3>
+          <div class="roadmap-lanes">
+            <div><b>Phase 1</b><span>User login, saved reports, profile database</span></div>
+            <div><b>Phase 2</b><span>Admin dashboard, university analytics, cohort skill gaps</span></div>
+            <div><b>Phase 3</b><span>Recruiter mode, candidate shortlist, AI career assistant</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer" id="contact">
@@ -297,6 +371,8 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="assets/app-v2.js?v=average-readiness-fix-20260618"></script>
+  <script src="assets/app-v3.js?v=auto-dataset-20260619"></script>
 </body>
 </html>
+
+
